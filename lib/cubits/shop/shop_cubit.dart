@@ -33,10 +33,9 @@ class ShopCubit extends Cubit<ShopState> {
         price: "\$200")
   ];
 
-  Future<void> getProducts() async {
+  void getProducts() async {
     try {
       emit(LoadingState());
-      await Future.delayed(const Duration(seconds: 2));
 
       emit(LoadedState(products));
     } catch (e) {

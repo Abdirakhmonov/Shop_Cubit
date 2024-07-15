@@ -1,4 +1,6 @@
+import 'package:cubit_bloc/cubits/shop/cart_cubit.dart';
 import 'package:cubit_bloc/cubits/shop/shop_cubit.dart';
+import 'package:cubit_bloc/data/models/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../cubits/shop/shop_state.dart';
@@ -13,6 +15,7 @@ class ShopScreen extends StatefulWidget {
 }
 
 class _ShopScreenState extends State<ShopScreen> {
+
   @override
   void initState() {
     super.initState();
@@ -133,6 +136,7 @@ class _ShopScreenState extends State<ShopScreen> {
           );
         });
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -244,15 +248,18 @@ class _ShopScreenState extends State<ShopScreen> {
                           ),
                           const Spacer(),
                           IconButton(
-                            onPressed: () {
-                              context.read<ShopCubit>().toggleFavorite(product);
-                            },
-                            icon: Icon(
-                                product.isFavorite
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
-                                color: product.isFavorite ? Colors.red : null),
-                          )
+                              onPressed: () {
+                                context.read<CartCubit>().addCart(
+                                    id: product.image,
+                                    title: product.title,
+                                    price: product.price,
+                                    image: product.image);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                     SnackBar(
+                                        content: Text(
+                                            "${product.title} savatchaga qo'shildi!!!")));
+                              },
+                              icon: const Icon(Icons.shopping_cart)),
                         ],
                       ),
                     ],
@@ -261,6 +268,7 @@ class _ShopScreenState extends State<ShopScreen> {
               });
         },
       ),
+
     );
   }
 }
